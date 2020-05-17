@@ -1,0 +1,45 @@
+//// -- LEVEL 1
+//// -- Tables and References
+
+// Creating tables
+Table house_sales {
+    sale_id int [pk, increment] // auto-increment
+    house_details_id int
+    address_id int
+    price float
+    transfer_date date
+}
+
+Table house_details {
+    house_details_id int [pk, ref: - house_sales.house_details_id]
+    property_type varchar
+    new_build varchar
+    freehold varchar
+}
+
+Table date {
+    date_stamp date [pk, ref: > house_sales.transfer_date]
+    year int
+    month int
+    week_of_year int
+    day int
+    day_of_week int
+}
+
+Table address {
+    address_id int [pk, ref: - house_sales.address_id]
+    prefix varchar
+    flat_num int
+    street varchar
+    neighbourhood varchar
+    town varchar
+    city varchar
+    district varchar
+    region varchar
+    country varchar
+    postcode varchar
+    longitude float
+    latitude float   
+    area_classification varchar
+}
+ 
