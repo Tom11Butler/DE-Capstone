@@ -28,18 +28,19 @@ Table date {
 
 Table address {
     address_id int [pk, ref: - house_sales.address_id]
-    prefix varchar
-    flat_num int
+    paon varchar
+    saon int
     street varchar
-    neighbourhood varchar
-    town varchar
-    city varchar
+    locality varchar
+    town_city varchar
     district varchar
-    region varchar
+    county varchar
     country varchar
     postcode varchar
     longitude float
     latitude float   
-    area_classification varchar
+    area_class_1 varchar
+    area_class_2 varchar
+    area_class_3 varchar
 }
  
