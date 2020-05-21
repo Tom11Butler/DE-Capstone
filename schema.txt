@@ -11,7 +11,7 @@ Table house_sales {
     transfer_date date
 }
 
-Table house_details {
+Table house_detail_lkp {
     house_details_id int [pk, ref: - house_sales.house_details_id]
     property_type varchar
     new_build varchar
@@ -27,7 +27,7 @@ Table date {
     day_of_week int
 }
 
-Table address {
+Table address_detail_lkp {
     address_id int [pk, ref: - house_sales.address_id]
     paon varchar
     saon int
