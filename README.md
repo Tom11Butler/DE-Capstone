@@ -17,11 +17,18 @@ This project contains the code files for the implementation of the Capstone Proj
 
 In this project I wanted to create a database that could be used for analysing historical residential housing transactions in the UK. On top of just getting the basic address information, I wanted to supplement this data with additional information. This data was the longitude and lattitudes of the properties, and the area classifications by postcodes for the data. With expanding the transfer date feature into its own table to extract data on the year, month, week and day of the transaction, the final data model is able to answer a lot more questions in a simpler way than if we stuck with the basic archival price-paid data from the UK government.
 
+### 1.1 Tech choices
+
+I chose to implement this database on Amazon Redshift. This is because I was dealing with Big Data, i.e., there were over 25 million rows in one of my datasets. This would be far too much for my local CPU to handle, hence the choice of a cloud based solution.
+
+The data was stored in an S3 bucket to take advantage of the COPY functionality from S3 to Redshift.
+
 ## 2. The data model
 
 The entity relationship diagram for this model is shown below.
 
 ![ERD](erd.png)
+
 
 ## 3. Data sources
 
@@ -79,7 +86,19 @@ Before starting the ETL process you will have to update the `dwh.cfg` file templ
 
 ### 5.2 Data quality checks
 
-After the files were run I did some basic data quality checks that can be found at the end of the `Summary-Notebook.ipynb`.
+After the files were run I did some basic data quality checks that can be found at the end of the `Summary-Notebook.ipynb`. However, here we can talk about some of them here.
+
+### 5.2.1 NOT NULL constraing
+
+I used the NOT NULL constraint when creating the tables (see `sql_queries.py`) to help ensure the data quality of the features where this was relevant.
+
+### 5.2.2 Missing postcodes
+
+There were some gaps in the data with the addresses and postcodes. Given that postcodes can be discoutinued, some of the postcodes in the prices-paid dataset were not joined with an entry in the postcodes dataset. On one test, this came out at 67,742 out of 17,228,299 distinct addresses - aounrd 0.39% of the total.
+
+### 5.2.3 Populated tables
+
+One very basic check is to see if the tables are actually populated. I have queried samples from the tables in the above notebook, section 4. We see that we get sensible data back.
 
 ## 6. How this project would change with extra requirements
 
