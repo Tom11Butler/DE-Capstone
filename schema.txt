@@ -15,7 +15,7 @@ Table house_details {
     house_details_id int [pk, ref: - house_sales.house_details_id]
     property_type varchar
     new_build varchar
-    freehold varchar
+    duration varchar
 }
 
 Table date {
