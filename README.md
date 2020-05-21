@@ -2,6 +2,17 @@
 
 This project contains the code files for the implementation of the Capstone Project for my Udacity Data Engineering Nanodegree.
 
+# Table of Contents
+1. [Motivation](#1.-Motivation)
+2. [The data model](#2.-The-data-model)
+3. [Data sources](#3.-Data-sources)
+4. [The files in this repo](#4.-The-files-in-this-repo)
+5. [The data pipeline](#5.-The-data-pipeline)
+6. [How this project would change with extra requirements](#6.-How-this-project-would-change-with-extra-requirements)
+7. [Updating the data](#7.-Updating-the-data)
+8. [Data Dictionary](#8.-Data-Dictionary)
+9. [Licenses](#9.-Licenses)
+
 ## 1. Motivation
 
 In this project I wanted to create a database that could be used for analysing historical residential housing transactions in the UK. On top of just getting the basic address information, I wanted to supplement this data with additional information. This data was the longitude and lattitudes of the properties, and the area classifications by postcodes for the data. With expanding the transfer date feature into its own table to extract data on the year, month, week and day of the transaction, the final data model is able to answer a lot more questions in a simpler way than if we stuck with the basic archival price-paid data from the UK government.
@@ -24,8 +35,9 @@ A `.csv` file for supplementary data on all of the UK postcodes as of Feb 2020 f
 
 ## 4. The files in this repo
 
-### 4.1 Jupyter notebooks
+### 4.1 Jupyter notebook
 
+- `Summary-Notebook.ipynb`: contains the bulk of the ETL pipeline and example queries at the end for some results of how the database works
 
 ### 4.2 Python scripts
 
@@ -39,11 +51,17 @@ A `.csv` file for supplementary data on all of the UK postcodes as of Feb 2020 f
 
 - `etl.py`: this file contains the code for copying the data from S3 into the staging tables and inserting data from these tables into the final tables.
 
-## The data pipeline
+### 4.3 Miscellaneous
+
+- `schema.txt`: the code used on [dbdiagram.io](https://dbdiagram.io/home) to create the schema image included
+
+- `erd.png`: the entity relationship diagram image
+
+## 5. The data pipeline
 
 I decided to use an Amazon Redshift cluster. The data are downloaded from the mentioned sources and then uploaded to an S3 bucket. The two sets of data are then loaded into two staging tables on an Amazon Redshift cluster. SQL code transformations are executed on the data which is then loaded into final tables as detailed in the schema.
 
-### How to run
+### 5.1 How to run
 
 Before starting the ETL process you will have to update the `dwf.cfg` file template in this repo. The steps in this ETL process are as followed:
 
@@ -60,28 +78,28 @@ Before starting the ETL process you will have to update the `dwf.cfg` file templ
 The base data, the prices paid for the houses, was good and ready to go for an upload to S3 and copy into staging tables. The same could not be said for the postcodes data - it required some cleaning, hence ...
 
 
-## How this project would change with extra requirements
+## 6. How this project would change with extra requirements
 
-1. What about data 100x bigger?
+### 6.1 What about data 100x bigger?
 
 In this case I would likely transfer across to PySpark for processing. At the minute some data cleaning is done within a Python script using pandas dataframes due to their ease and familiarity. However, as the data grows, making use of a dsitributed cluster would be sensible as the local memory would rapidly run out.
 
-2. The data populates a dashboard and must be updated on a daily basis by 7am every day
+### 6.2. The data populates a dashboard and must be updated on a daily basis by 7am every day
 
 I would use the Airflow tool to handle this scheduling requirments. A DAG (Directed Acyclic Graph) for the ETL pipeline would be created and set on a daily schedule to run at midnight of each day. To account for the scenario where the pipeline would fail, I would set the DAG to send an email notification after the DAG was to fail for the third time.
 
-3. Database needs to be accessed by 100+ people
+### 6.3. Database needs to be accessed by 100+ people
 
 I have already implemented the database on an Amazon Redshift cluster using Infrastructure as Code ideas. Accesses for the 100+ data consumers would be granted. A benefit of using AWS here is the ease with which the accesses can be managed for the cluster.
 
-## Updating the data
+## 7. Updating the data
 
 In an ideal world, we would have real-time data for every component. Getting every house sale as soon as the contract was signed on the dotted line would be great, however there are some more realistic expectations we can put on here.
 
 - **House Sales** - monthly release, thus update this data monthly from the [HM Land Registry](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads#current-month-march-2020-data).
 - **Postcodes** - the Office of National Statistics realeases a new postcode lookup file every three months [here](https://geoportal.statistics.gov.uk/datasets/4f71f3e9806d4ff895996f832eb7aacf). Update according to this timeline.
 
-## Data Dictionary
+## 8. Data Dictionary
 
 ### House Sales: `house_sales`
 
@@ -132,7 +150,7 @@ In an ideal world, we would have real-time data for every component. Getting eve
 |day|int|Takes values 1-31 (month dependent)|
 |day_of_week|int|Takes values 0-6 starting with Sunday|
 
-## Licenses
+## 9. Licenses
 
 Office for National Statistics licensed under the Open Government Licence v.3.0
 
