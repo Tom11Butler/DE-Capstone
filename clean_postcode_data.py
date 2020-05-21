@@ -62,12 +62,12 @@ def main():
 
         postcodes_filepath = sys.argv[1:][0]
         
-        print(postcodes_filepath)
-        
         process_data(postcodes_filepath)
         
+        print('\n Successfully cleaned! \n')
+        
     else:
-        print('Please provide the filepath of the postcodes dataset.')
+        print('Please provide the filepath of the postcodes dataset to clean.')
 
 
 if __name__=="__main__":
