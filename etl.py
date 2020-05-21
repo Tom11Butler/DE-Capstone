@@ -11,6 +11,9 @@ def load_staging_tables(cur, conn):
     Loads in the relevant queries and runs them
     See sql_queries.py for implementation details
     '''
+    
+    print('Copying the data into staging tables ...')
+    
     for query in copy_table_queries:
         cur.execute(query)
         conn.commit()
@@ -24,6 +27,9 @@ def insert_tables(cur, conn):
     Loads in the relevant queries and runs them
     See sql_queries.py for implementation details
     '''
+    
+    print('Inserting the data into the final tables ...')
+    
     for query in insert_table_queries:
         cur.execute(query)
         conn.commit()
