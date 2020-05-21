@@ -17,6 +17,15 @@ This project contains the code files for the implementation of the Capstone Proj
 
 In this project I wanted to create a database that could be used for analysing historical residential housing transactions in the UK. On top of just getting the basic address information, I wanted to supplement this data with additional information. This data was the longitude and lattitudes of the properties, and the area classifications by postcodes for the data. With expanding the transfer date feature into its own table to extract data on the year, month, week and day of the transaction, the final data model is able to answer a lot more questions in a simpler way than if we stuck with the basic archival price-paid data from the UK government.
 
+I see this data as being able to populate a monthly dashboard for summary statistics on things like:
+
+- average price of sale
+- breakdown by region of sales figures
+- distribution of sale prices
+- how different area classifications are performing to help identify traits of areas with greater / lower house turnover
+- the best days of the week for sales in that month
+- the types of properties that sell best by postcode
+
 ### 1.1 Tech choices
 
 I chose to implement this database on Amazon Redshift. This is because I was dealing with Big Data, i.e., there were over 25 million rows in one of my datasets. This would be far too much for my local CPU to handle, hence the choice of a cloud based solution.
