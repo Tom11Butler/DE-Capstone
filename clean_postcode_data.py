@@ -3,8 +3,15 @@ import pandas as pd
 
 def process_data(filepath):
     '''
-    Want this to take arguments from the console input, so we tell it the filepath of the data we want to send
-    Think along the lines of the 
+    Takes the filepath of the postcode data to clean
+    Cleans that data
+    Writes it back to the file
+
+    Inputs:
+    - filepath: the filepath of the postcodes data to be clean
+
+    Outputs:
+    - NA
     '''
     
     print('Cleaning the data ...')
