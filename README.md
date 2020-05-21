@@ -27,11 +27,11 @@ The entity relationship diagram for this model is shown below.
 
 ### Houses Price Paid
 
-A `.csv` file of all property sales in the UK in the years 1995-2017 from [HM Land Registry](https://data.gov.uk/dataset/314f77b3-e702-4545-8bcb-9ef8262ea0fd/archived-price-paid-information-residential-property-1995-to-2012). The column descriptions for this data file were also given by this link.
+A file of all property sales in the UK in the years 1995-2017 from [HM Land Registry](https://data.gov.uk/dataset/314f77b3-e702-4545-8bcb-9ef8262ea0fd/archived-price-paid-information-residential-property-1995-to-2012). The column descriptions for this data file were also given by this link.
 
 ### Postcodes
 
-A `.csv` file for supplementary data on all of the UK postcodes as of Feb 2020 from the [Office of National Statistics](https://geoportal.statistics.gov.uk/datasets/national-statistics-postcode-lookup-february-2020).
+A file for supplementary data on all of the UK postcodes as of Feb 2020 from the [Office of National Statistics](https://geoportal.statistics.gov.uk/datasets/national-statistics-postcode-lookup-february-2020).
 
 ## 4. The files in this repo
 
@@ -57,26 +57,29 @@ A `.csv` file for supplementary data on all of the UK postcodes as of Feb 2020 f
 
 - `erd.png`: the entity relationship diagram image
 
+- `dwh-template.cfg`: template for you own configuration file
+
 ## 5. The data pipeline
 
 I decided to use an Amazon Redshift cluster. The data are downloaded from the mentioned sources and then uploaded to an S3 bucket. The two sets of data are then loaded into two staging tables on an Amazon Redshift cluster. SQL code transformations are executed on the data which is then loaded into final tables as detailed in the schema.
 
 ### 5.1 How to run
 
-Before starting the ETL process you will have to update the `dwf.cfg` file template in this repo. The steps in this ETL process are as followed:
+Before starting the ETL process you will have to update the `dwh.cfg` file template in this repo. The steps in this ETL process are as followed:
 
 1. Extract the data from the sources.
 
 2. Clean the postcodes data with `clean_postcodes_data`. This function takes the filepath of the file to clean as an argument.
 
-3. Upload all data to the S3 bucket as defined in the `dwf.cfg` configuration file with `upload_data.py`. After this you will have to update the config file with the new filepaths of the data.
+3. Upload all data to the S3 bucket as defined in the `dwh.cfg` configuration file with `upload_data.py`. After this you will have to update the config file with the new filepaths of the data.
 
 4. Create the tables in the Amazon Redshift with `create_tables.py`.
 
 5. Run the ETL process with `etl.py`.
 
-The base data, the prices paid for the houses, was good and ready to go for an upload to S3 and copy into staging tables. The same could not be said for the postcodes data - it required some cleaning, hence ...
+### 5.2 Data quality checks
 
+After the files were run I did some basic data quality checks that can be found at the end of the `Summary-Notebook.ipynb`.
 
 ## 6. How this project would change with extra requirements
 
