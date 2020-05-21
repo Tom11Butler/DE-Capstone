@@ -8,10 +8,14 @@ from botocore.exceptions import ClientError
 
 def upload_to_s3(filepath, destination):
     '''
+    Takes the local filepath and S3 key for the file to upload
     
     Inputs:
     - filepath: the filepath in your local directory
-    - destination: S3 we want to upload to
+    - destination: S3 key for the file we want to upload
+    
+    Outputs:
+    - NA
     '''
     
     config = configparser.ConfigParser()
@@ -28,6 +32,9 @@ def upload_to_s3(filepath, destination):
     s3.meta.client.upload_file(Filename=filepath, Bucket=BUCKET, Key=destination)
 
 def main():
+    '''
+    Function that is called when the file is called directly
+    '''
     
     
     if len(sys.argv) == 5:
