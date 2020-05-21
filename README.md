@@ -25,7 +25,7 @@ The data was stored in an S3 bucket to take advantage of the COPY functionality 
 
 ## 2. The data model
 
-The entity relationship diagram for this model is shown below.
+The entity relationship diagram for this model is shown below. I chose a simple star schema: a single fact table for house sales, and three dimension tables for the house details, the date of transfer, and the address details. This makes it more efficient if we only want to consider time-based trends independent of location (or vice-versa).
 
 ![ERD](erd.png)
 
@@ -34,7 +34,7 @@ The entity relationship diagram for this model is shown below.
 
 ### Houses Price Paid
 
-A file of all property sales in the UK in the years 1995-2017 from [HM Land Registry](https://data.gov.uk/dataset/314f77b3-e702-4545-8bcb-9ef8262ea0fd/archived-price-paid-information-residential-property-1995-to-2012). The column descriptions for this data file were also given by this link.
+A file of all property sales in the UK in the years 1995-2020 from [HM Land Registry](https://www.gov.uk/government/statistical-data-sets/price-paid-data-downloads#single-file). The file to download is "the complete Price Paid Transaction Data", around 3.7GB. However, if you want to test how this code works with a smaller sample (so that the upload times to S3 are not astrononmical), you can use one of the complete yearly datasets, e.g., for 2019, around 24.5MB.
 
 ### Postcodes
 
@@ -72,7 +72,9 @@ I decided to use an Amazon Redshift cluster. The data are downloaded from the me
 
 ### 5.1 How to run
 
-Before starting the ETL process you will have to update the `dwh.cfg` file template in this repo. The steps in this ETL process are as followed:
+Before starting the ETL process you will have to update the `dwh.cfg` file template in this repo. You will also have to go to the data source links and download the files into a sensible place.
+
+The steps in this ETL process are as followed:
 
 1. Extract the data from the sources.
 
